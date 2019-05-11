@@ -1,1 +1,29 @@
-﻿
+﻿using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+
+public enum UIPrefab
+{
+    //枚举成员
+}
+public class UIConfig : SingletonBase<UIConfig >{
+
+    private Dictionary<UIPrefab, string> uiDic = new Dictionary<UIPrefab, string>();
+    public UIConfig() {
+
+        //配置初始化
+
+    }
+
+    public string GetLoadPath(UIPrefab ui) {
+        if (uiDic.ContainsKey(ui))
+        {
+            return uiDic[ui];
+        }
+        else
+        {
+            Debug.Log("加载路径获取失败");
+            return "";
+        }
+    }
+}

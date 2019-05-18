@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class SingleletonBase<T> : IDisposable where T : new()
+public class SingletonBase<T> : IDisposable where T : new()
 {
     public static T instance;
     

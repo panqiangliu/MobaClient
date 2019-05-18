@@ -1,15 +1,20 @@
-﻿using System.Collections;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 public enum UIPrefab
-{   //枚举成员
+{   
+  a,
+  b,
+  C,
 }
 public class UIConfig : SingleletonBase<UIConfig>{
 
     private Dictionary<UIPrefab, string> uiDic = new Dictionary<UIPrefab, string>();
-    public UIConfig() 
-	{        //配置初始化  
+    public UIConfig() {        
+    uiDic.Add(UIPrefab.a,@"UIPrefab\a");
+    uiDic.Add(UIPrefab.b,@"UIPrefab\b");
+    uiDic.Add(UIPrefab.C,@"UIPrefab\New Folder\C");  
 	}
 
     public string GetLoadPath(UIPrefab ui) {

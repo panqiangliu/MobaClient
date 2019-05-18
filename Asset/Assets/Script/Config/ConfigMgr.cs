@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class ConfigMgr : MonoSingleleton<ConfigMgr>
+public class ConfigMgr : MonoSingleton<ConfigMgr>
 {
     public bool CheckIsABLoad()
     {

@@ -8,7 +8,7 @@ public enum UIPrefab
   b,
   C,
 }
-public class UIConfig : SingleletonBase<UIConfig>{
+public class UIConfig : SingletonBase<UIConfig>{
 
     private Dictionary<UIPrefab, string> uiDic = new Dictionary<UIPrefab, string>();
     public UIConfig() {        

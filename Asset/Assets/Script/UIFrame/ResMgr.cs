@@ -54,3 +54,4 @@ public class ResMgr : SingletonBase<ResMgr> {
         return null;
     }
 }
+

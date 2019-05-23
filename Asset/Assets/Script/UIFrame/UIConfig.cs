@@ -4,17 +4,18 @@ using UnityEngine;
 
 public enum UIPrefab
 {   
-  a,
-  b,
-  C,
+  TestA,
+  TestB,
+  TestC,
 }
 public class UIConfig : SingletonBase<UIConfig>{
 
     private Dictionary<UIPrefab, string> uiDic = new Dictionary<UIPrefab, string>();
-    public UIConfig() {        
-    uiDic.Add(UIPrefab.a,@"UIPrefab\a");
-    uiDic.Add(UIPrefab.b,@"UIPrefab\b");
-    uiDic.Add(UIPrefab.C,@"UIPrefab\New Folder\C");  
+    public UIConfig() 
+	{        
+    uiDic.Add(UIPrefab.TestA,@"UIPrefab\TestA");
+    uiDic.Add(UIPrefab.TestB,@"UIPrefab\TestB");
+    uiDic.Add(UIPrefab.TestC,@"UIPrefab\TestC");  
 	}
 
     public string GetLoadPath(UIPrefab ui) {

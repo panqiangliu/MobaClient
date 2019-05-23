@@ -21,6 +21,10 @@ public class MonoSingleton<T> : MonoBehaviour where T:MonoBehaviour
                 {
                     if (GameObject.Find("ComSingleton").GetComponent<T>()!=null)
                     {
+                        instance = GameObject.Find("ComSingleton").GetComponent<T>();
+                    }
+                    else
+                    {
                         instance = GameObject.Find("ComSingleton").AddComponent<T>();
                     }
                 }

@@ -3,22 +3,22 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public enum UIPrefab
-{
-    TestA,
-    TestB,
+{   
+  TestA,
+  TestB,
+  TestC,
 }
-public class UIConfig : SingletonBase<UIConfig>
-{
+public class UIConfig : SingletonBase<UIConfig>{
 
     private Dictionary<UIPrefab, string> uiDic = new Dictionary<UIPrefab, string>();
-    public UIConfig()
-    {
-        uiDic.Add(UIPrefab.TestA, @"UIPrefab\TestA");
-        uiDic.Add(UIPrefab.TestB, @"UIPrefab\TestB");
-    }
+    public UIConfig() 
+	{        
+    uiDic.Add(UIPrefab.TestA,@"UIPrefab\TestA");
+    uiDic.Add(UIPrefab.TestB,@"UIPrefab\TestB");
+    uiDic.Add(UIPrefab.TestC,@"UIPrefab\New Folder\TestC");  
+	}
 
-    public string GetLoadPath(UIPrefab ui)
-    {
+    public string GetLoadPath(UIPrefab ui) {
         if (uiDic.ContainsKey(ui))
         {
             return uiDic[ui];

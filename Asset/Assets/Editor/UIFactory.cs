@@ -13,6 +13,28 @@ public class UIFactory : MonoBehaviour
 {
 
 
+    [MenuItem("GameObject/添加_dyn(动态)后缀",priority = 49)]
+    public static void UpdateNameAddDYN()
+    {
+        Transform[] objs = Selection.transforms;
+        if(objs.Length > 0)
+        {
+            for (int i = 0;i < objs.Length; i++)
+            {
+                if(objs[i].name.Contains("_dyn"))
+                {
+                    Debug.Log(objs[i].name+":已经存在_dyn后缀");
+                }
+                else
+                {
+                    objs[i].transform.name= objs[i].name+"_dyn";
+                }
+            }
+        }
+    }
+
+
+
     //将图片改为Sprite 2D And UI
     [MenuItem("Assets/图片改成2D AND UI", priority = 49)]
     public static void SetTextureType()
@@ -64,6 +86,37 @@ public class UIFactory : MonoBehaviour
             }
         }
     }
+
+    
+    [MenuItem("Assets/创建物体:图片和按钮", priority = 49)]
+    public static void CreateImageHaveBtn()
+    {
+        UnityEngine.Object[] objs= Selection.objects;
+        Transform parent = GameObject.Find("UIRoot").transform;
+        if (objs.Length>0)
+        {
+            for (int i = 0; i < objs.Length; i++)
+            {
+                if(objs[i] is Texture2D)
+                {
+                    string path = AssetDatabase.GetAssetPath(objs[i]);
+                    TextureImporter ti=TextureImporter.GetAtPath(path) as TextureImporter;
+                    if (ti.textureType==TextureImporterType.Sprite)
+                    {
+                        GameObject go =new GameObject(objs[i].name,new Type[] {typeof(Image),typeof(Button)});
+                        go.transform.SetParent(parent,false);
+                        var img=go.GetComponent<Image>();
+                        img.type=Image.Type.Simple;
+                        UnityEngine.Object image=AssetDatabase.LoadAssetAtPath(path,typeof(Sprite));
+                        img.sprite=image as Sprite;
+                        Undo.RecordObject(img,"Change Image");
+                        img.SetNativeSize();
+                    }
+                }
+            }
+        }
+    }
+
 
 }
 

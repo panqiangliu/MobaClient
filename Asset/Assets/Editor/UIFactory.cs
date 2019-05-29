@@ -11,7 +11,69 @@ using System.Data;
 
 public class UIFactory : MonoBehaviour
 {
+    //ui窗体资源路径
+    static string ResPath = Application.dataPath+"/Resources/UIPrefab/";
 
+
+    [MenuItem("UI工具/创建UIConfig")]
+    public static void GetUIConfig()
+    {
+        StringBuilder uiEnum = new StringBuilder();    //枚举成员
+        StringBuilder uiDic = new StringBuilder();     //字典添加的代码
+
+        List<FileInfo> fileList = FileCom.GetFile(ResPath,".prefab");
+        for (int i = 0; i < fileList.Count; i++)
+        {
+            //把所有的“/”换成“\”
+            string res =(Application.dataPath+"/Resources/").Replace('/','\\');
+            uiEnum.Append('\n');
+            uiEnum.Append(" "+fileList[i].Name.Replace(".prefab","")+",");
+            
+            //通过枚举访问 去掉 .prefab 的UI预制件名称
+            string key = "UIPrefab."+fileList[i].Name.Replace(".prefab","");
+            //加载短路径
+            string value =fileList[i].FullName.Replace(".prefab","");
+            //给字典添加内容的模板
+            string dicTemplate = "      "+"uiDic.Add(key,@value)";
+            uiDic.Append("\n");
+            uiDic.Append(dicTemplate.Replace("key",key).Replace("value","\""+value+"\""));
+        }
+        Debug.Log(uiEnum);
+        Debug.Log(uiDic);
+
+        //读取模板，替换模板内容 替换为uiEnum 和uiDic
+        string configTemplatePath = Application.dataPath+"Editor Default Resources/uiconfig.txt";
+        var allText = FileCom.GetFileText(configTemplatePath);
+        allText = allText.Replace("//枚举成员", uiEnum.ToString()).Replace("//配置初始化", uiDic.ToString());
+        Debug.Log(allText);
+        //写入的目标路径
+        var destFile = Application.dataPath + "/Script/UIFrame/UIConfig.cs";
+        //创建和写入代码
+        FileCom.CreateFile(destFile, allText);
+        //刷新编辑器
+        AssetDatabase.Refresh();
+    }
+
+
+    [MenuItem("GameObject/添加Window后缀",priority=49)]
+    public static void UpdateNameAddWindow()
+    {
+        Transform[] transforms=Selection.transforms;
+        if (transforms.Length > 0)
+        {
+            for(int i = 0; i < transforms.Length; i++)
+            {
+                if (transforms[i].name.Contains("Window"))
+                {
+                    Debug.Log(transforms[i].name+"：名字已经包含Window");
+                }
+                else
+                {
+                    transforms[i].gameObject.name=transforms[i].name+"Window";
+                }
+            }
+        }
+    }
 
     [MenuItem("GameObject/添加_dyn(动态)后缀",priority = 49)]
     public static void UpdateNameAddDYN()

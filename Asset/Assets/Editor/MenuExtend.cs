@@ -45,7 +45,7 @@ public class MenuExtend
         //写入的路径
         var destFile = Application.dataPath + "/Script/UIFrame/UIConfig.cs";
         //创建和写入代码
-        FileCom.CreatFile(destFile, allText);
+        FileCom.CreateFile(destFile, allText);
         AssetDatabase.Refresh();
     }
 }

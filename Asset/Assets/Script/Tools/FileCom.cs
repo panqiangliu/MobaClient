@@ -26,7 +26,7 @@ public class FileCom
     }
 
     //filePath 文件路径
-    public static void CreatFile(string filePath)
+    public static void CreateFile(string filePath)
     {
         string connect = string.Empty;
         DeletFile(filePath);
@@ -36,7 +36,7 @@ public class FileCom
         }
     }
 
-    public static void CreatFile(string filePath, string content)
+    public static void CreateFile(string filePath, string content)
     {
         DeletFile(filePath);
         using (FileStream fs = File.Create(filePath))

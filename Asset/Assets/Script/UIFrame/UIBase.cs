@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
+//此脚本和UIWindowBase相同
 public class UIBase : MonoBehaviour
 {
     public bool isInit=false;    //判断是否已经初始化

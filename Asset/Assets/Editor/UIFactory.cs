@@ -11,8 +11,87 @@ using System.Data;
 
 public class UIFactory : MonoBehaviour
 {
+    //模板
+    static string UIWindoeModule = Application.dataPath+"/Editor Default Resources/uiwindow.txt";
+    static string UIControl = Application.dataPath + "/Editor Default Resources/uicontrol.txt";
+
+    //ui预制件字典 key:名称 value:加载路径
+    static Dictionary<string, string> UIPre = new Dictionary<string, string>();
+     //gameobject字典 key:物体  value:物体中所有的按钮集合
+    static Dictionary<GameObject, Button[]> GoList = new Dictionary<GameObject, Button[]>();
+
     //ui窗体资源路径
     static string ResPath = Application.dataPath+"/Resources/UIPrefab/";
+
+    [MenuItem("UI工具/创建UIWindow")]
+    public static void CreatUIModule()
+    {
+        var UIWindowText = FileCom.GetFileText(UIWindoeModule);   //获得里边的文本内容
+        List<FileInfo> fileList = FileCom.GetFile(ResPath,".prefab");
+
+        //UIPrefab初始化：获取物体与加载路径
+        for (int i = 0; i < fileList.Count; i++)
+        {
+            string res = (Application.dataPath+"/Resources/").Replace("/","\\");
+            string key =fileList[i].Name.Replace(".prefab","");
+            string value =fileList[i].FullName.Replace(res,"").Replace(".prefab","");
+            UIPre.Add(key,value);
+        }
+
+        //GoList初始化：获取物体与物体上的所有按钮
+        foreach (var key in UIPre.Keys)
+        {
+            var go = Resources.Load(UIPre[key]) as GameObject;
+            Debug.Log("物体："+go.name);   //预制体的名称
+            Button[] btns=go.GetComponents<Button>();
+            GoList.Add(go,btns);
+        }
+
+        //创建每个物体对应的Window.cs  文件
+        foreach (var gkey in GoList.Keys)
+        {
+            string alltext;
+            var key = gkey;
+
+            //承载变量声明的代码
+            StringBuilder variable = new StringBuilder();
+            //承载变量初始化的代码
+            StringBuilder variableInit = new StringBuilder();
+
+            //动态物体字典  dynamic 键：物体名称；值：加载路径
+            Dictionary<string,string> dynDic = new Dictionary<string, string>();
+            //动态物体初始化字典 键：物体名称 值：初始化的代码
+            Dictionary<string,string> dynInitDic = new Dictionary<string, string>();
+
+            //所有的子物体包括隐藏的
+            Transform[] allChild = key.GetComponentsInChildren<Transform>(true);
+
+            //对于动态物体的逻辑“_dyn”
+            for (int i = 0; i < allChild.Length; i++)
+            {
+                if(allChild[i].name.Contains("_dyn"))
+                {
+                    string loadPath = "";
+                    var c =allChild[i];      //当前的子物体
+                    while(c.parent != null)
+                    {
+                        loadPath="/"+c.name+loadPath;
+                        c=c.parent;
+                    }
+
+                    //加入动态物体管理的数据结构 key: 物体名称  value:加载路径
+                    if(dynDic.ContainsKey(allChild[i].name))
+                    {
+                        Debug.LogError("动态五日名称重复，请手动添加业务前缀");
+                        Debug.LogError("已有路径是："+dynDic[allChild[i].name]);
+                        Debug.LogError("c冲突路径是："+loadPath.Remove(0,1));
+                        dynDic.Add(allChild[i].name,loadPath.Remove(0,1));
+                    }
+                }
+            }
+        }
+    }
+
 
 
     [MenuItem("UI工具/创建UIConfig")]

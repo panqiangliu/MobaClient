@@ -1,22 +1,28 @@
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using ProtoMsg;
 
 public enum UIPrefab
-{   
-  TestA,
-  TestB,
-  TestC,
+{
+    
+    Image,
+    item,
+    TestWindow,
+    UserWindow,
 }
-public class UIConfig : SingletonBase<UIConfig>{
+public class UIConfig : Singleton<UIConfig >{
 
     private Dictionary<UIPrefab, string> uiDic = new Dictionary<UIPrefab, string>();
-    public UIConfig() 
-	{        
-    uiDic.Add(UIPrefab.TestA,@"UIPrefab\TestA");
-    uiDic.Add(UIPrefab.TestB,@"UIPrefab\TestB");
-    uiDic.Add(UIPrefab.TestC,@"UIPrefab\New Folder\TestC");  
-	}
+    public UIConfig() {
+
+        
+        uiDic.Add(UIPrefab.Image,@"UIPrefab\Image");
+        uiDic.Add(UIPrefab.item,@"UIPrefab\item");
+        uiDic.Add(UIPrefab.TestWindow,@"UIPrefab\TestWindow");
+        uiDic.Add(UIPrefab.UserWindow,@"UIPrefab\User\UserWindow");
+
+    }
 
     public string GetLoadPath(UIPrefab ui) {
         if (uiDic.ContainsKey(ui))

@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class ResMgr : SingletonBase<ResMgr> {
+public class ResMgr : Singleton<ResMgr> {
 
     //加载精灵
     //加载纹理
@@ -54,4 +54,3 @@ public class ResMgr : SingletonBase<ResMgr> {
         return null;
     }
 }
-

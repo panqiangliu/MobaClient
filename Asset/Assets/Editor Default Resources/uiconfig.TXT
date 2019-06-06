@@ -1,16 +1,20 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using ProtoMsg;
 
 public enum UIPrefab
-{   //枚举成员
+{
+    //枚举成员
 }
-public class UIConfig : SingletonBase<UIConfig>{
+public class UIConfig : Singleton<UIConfig >{
 
     private Dictionary<UIPrefab, string> uiDic = new Dictionary<UIPrefab, string>();
-    public UIConfig() 
-	{        //配置初始化  
-	}
+    public UIConfig() {
+
+        //配置初始化
+
+    }
 
     public string GetLoadPath(UIPrefab ui) {
         if (uiDic.ContainsKey(ui))
